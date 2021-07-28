@@ -1,9 +1,7 @@
 # coding: utf-8
 
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.urls import reverse
-
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm
 from django.shortcuts import redirect
@@ -44,7 +42,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
         else:
             print(form.errors)
     return render(request, 'rango/add_category.html', {'form': form})
@@ -57,7 +55,7 @@ def add_page(request, category_name_slug):
         category = None
 
     if category is None:
-        return redirect('/rango/')
+        return redirect(reverse('rango:index'))
 
     form = PageForm()
 
